@@ -15,7 +15,7 @@ const Welcome = () => {
               <button onClick={()=> navigate("/login")} className="px-6 py-2  bg-[#0FA47F] text-white rounded-md text-[14px] hover:bg-[#00a885] transition-colors duration-200">
                 Log In
               </button>
-              <button className="px-8 py-2   bg-[#0FA47F] text-white rounded-md text-[14px] hover:bg-[#00a885] transition-colors duration-200">
+              <button onClick={()=> navigate("/signup")} className="px-8 py-2   bg-[#0FA47F] text-white rounded-md text-[14px] hover:bg-[#00a885] transition-colors duration-200">
                 Sign up
               </button>
             </div>

@@ -1,13 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import {
-  FiSun,
-  FiPlus,
-  FiMessageSquare,
-} from "react-icons/fi";
+import { FiSun, FiPlus, FiMessageSquare, FiMenu } from "react-icons/fi";
 import { IoSend } from "react-icons/io5";
-
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,7 +18,7 @@ const Home = () => {
     {
       title: "Clear and precise",
       description: "Pariatur sint laborum cillum aute consectetur iure.",
-      
+
       icon: (
         <div className="md:ml-24 sm:ml-80 mb-6 mt-3">
           <svg
@@ -96,14 +91,14 @@ const Home = () => {
     },
   ];
   return (
-    <div className="flex md:h-[900px] sm:h-[900px] bg-black">
+    <div className="flex max-h-[830px] md:h-[810px] sm:h-[830px] bg-black md:mr-0 sm:-mr-[50px]">
       {/* Sidebar */}
       <div
-        className={`fixed md:relative w-72 bg-[#222222] md:h-full transition-transform duration-300 ease-in-out ${
+        className={`fixed md:relative w-72 bg-[#222222] md:h-full sm:mb-5  transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
-        <div className="flex flex-col h-full p-4">
+        <div className="flex flex-col h-full p-4 ">
           {/* User Profile */}
           <div className="flex items-center space-x-3 mb-6 bg-[#FFFFFF0D] p-3 rounded-lg">
             <div className="w-8 h-8 bg-[linear-gradient(91.96deg,_rgba(1,154,90,0.7)_-16.64%,_rgba(1,154,90,0.8)_117.28%)] rounded-full flex items-center justify-center">
@@ -123,18 +118,22 @@ const Home = () => {
               </span>
             </div>
             <div>
-              <div className="text-white text-[16px]">Antoine Piedanna</div>
-              <div className="text-gray-400 text-[14px]">Free account</div>
+              <div className="text-white md:text-[16px] sm:text-[14px]">
+                Antoine Piedanna
+              </div>
+              <div className="text-gray-400 md:text-[14px] sm:text-[14px]">
+                Free account
+              </div>
             </div>
           </div>
 
           {/* Chat History */}
-          <div className="">
-            <div className="flex-grow overflow-y-auto space-y-2">
+          <div className="z-40">
+            <div className="flex-grow overflow-y-auto md:space-y-2 sm:space-y-0">
               {chatHistory.map((chat, index) => (
                 <button
                   key={index}
-                  className="w-full text-left text-gray-300 text-[16px] hover:bg-gray-700 p-3 rounded-lg flex items-center space-x-2"
+                  className="w-full text-left text-gray-300 md:text-[16px] sm:text-[14px] hover:bg-gray-700 p-3 rounded-lg flex items-center space-x-2"
                 >
                   <FiMessageSquare />
                   <span>{chat}</span>
@@ -144,9 +143,9 @@ const Home = () => {
           </div>
 
           {/* New Chat Button */}
-          <div className="items-start md:mb-48 sm:mb-2 	">
-            <button className="grid	 bg-[linear-gradient(91.96deg,_rgba(1,154,90,0.7)_-16.64%,_rgba(1,154,90,0.8)_117.28%)] text-white p-3 rounded-lg space-x-2 mt-2 mb-4 min-w-full	">
-              <div className="flex justify-self-start">
+          <div className="items-start md:mb-32 sm:mb-4 ">
+            <button className="grid	 bg-[linear-gradient(91.96deg,_rgba(1,154,90,0.7)_-16.64%,_rgba(1,154,90,0.8)_117.28%)] text-white p-3 rounded-lg space-x-2 mt-2 mb-4 md:min-w-full sm:min-w-[200px]	">
+              <div className="flex justify-self-start md:text-[16px] sm:text-[14px]">
                 <FiPlus className="mt-1  mr-2" />
                 <span>Start a new chat</span>
               </div>
@@ -163,7 +162,7 @@ const Home = () => {
           </div>
 
           {/* Bottom Actions */}
-          <div className="space-y-2">
+          <div className="md:space-y-2 sm:space-y-0 md:text-[16px] sm:text-[14px]">
             <button className="w-full text-gray-300 hover:bg-gray-700 p-3 rounded-lg flex items-center space-x-2">
               {/* <FiTrash2 /> */}
               <svg
@@ -270,15 +269,15 @@ const Home = () => {
           </p>
 
           {/* Search Input */}
-          <div className="w-[719px] max-w-2xl mb-12">
-            <div className="relative">
+          <div className="md:w-[719px] sm:w-[700px] max-w-2xl mb-12">
+            <div className="md:relative z-0">
               <input
                 type="text"
                 placeholder='Example : "Explain quantum computing in simple terms"'
-                className="w-full bg-[#FFFFFF0D] text-white rounded-lg pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                className=" z-0 w-full bg-[#FFFFFF0D] text-white rounded-lg pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600"
               />
 
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[linear-gradient(91.96deg,_rgba(1,154,90,0.7)_-16.64%,_rgba(1,154,90,0.8)_117.28%)] bg-cover rounded-md text-white p-2">
+              <button className="md:absolute md:mr-0 sm:mr-4 md:right-2 top-1/2 md:-translate-y-1/2 sm:-translate-y-10 md:translate-x-0 sm:translate-x-80 bg-[linear-gradient(91.96deg,_rgba(1,154,90,0.7)_-16.64%,_rgba(1,154,90,0.8)_117.28%)] bg-cover rounded-md text-white p-2">
                 <IoSend />
               </button>
             </div>
@@ -300,18 +299,16 @@ const Home = () => {
           </div>
         </div>
       </div>
-      
-      
 
       {/* Mobile Menu Toggle */}
       <button
         className="md:hidden fixed top-4 left-4 z-50 bg-gray-800 p-2 rounded-lg text-white"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
-        <FiMessageSquare />
+        {/* <FiMessageSquare /> */}
+        <FiMenu />
       </button>
     </div>
-   
   );
 };
 
