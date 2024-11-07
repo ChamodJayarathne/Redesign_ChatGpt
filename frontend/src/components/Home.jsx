@@ -91,7 +91,7 @@ const Home = () => {
     },
   ];
   return (
-    <div className="flex max-h-[830px] md:h-[810px] sm:h-[830px] bg-black md:mr-0 sm:-mr-[50px]">
+    <div className="flex max-h-[860px] md:h-[810px] sm:h-[860px] bg-black md:mr-0 sm:-mr-[50px]">
       {/* Sidebar */}
       <div
         className={`fixed md:relative w-72 bg-[#222222] md:h-full sm:mb-5  transition-transform duration-300 ease-in-out ${
@@ -305,7 +305,7 @@ const Home = () => {
         className="md:hidden fixed top-4 left-4 z-50 bg-gray-800 p-2 rounded-lg text-white"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
-        {/* <FiMessageSquare /> */}
+     
         <FiMenu />
       </button>
     </div>

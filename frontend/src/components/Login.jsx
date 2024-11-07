@@ -1,18 +1,54 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { BsMicrosoft } from "react-icons/bs";
+import { BsHammer, BsMicrosoft } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    try {
+      const response = await api.post("/user/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      navigate("/home");
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid credentials");
+    }
   };
+
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/api/auth/google";
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    const error = urlParams.get("error");
+
+    if (token) {
+      localStorage.setItem("token", token);
+      navigate("/home");
+    }
+
+    if (error) {
+      setError(decodeURIComponent(error));
+    }
+  }, [navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-4">
@@ -25,11 +61,12 @@ const Login = () => {
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-6 w-[320px] items-center ml-2" onSubmit={handleSubmit}>
-          
+        <form
+          className="mt-8 space-y-6 w-[320px] items-center ml-2"
+          onSubmit={handleSubmit}
+        >
           <div className="relative">
             <div className="relative">
-              
               <div className="absolute -top-2 flex items-center w-full">
                 <span className="text-[14px] text-[#0FA47F] bg-white pr-2 pl-2">
                   Email address
@@ -37,13 +74,13 @@ const Login = () => {
                 <div className="flex-grow h-[1px]"></div>
               </div>
 
-             
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full mt-2 px-3 py-2 border-2 border-[#0FA47F] rounded-md focus:outline-none focus:border-emerald-600"
                 placeholder=""
+                required
               />
             </div>
           </div>
@@ -65,6 +102,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full mt-2 px-3 py-2 border-2 border-[#0FA47F] rounded-md focus:outline-none focus:border-emerald-600"
                 placeholder=""
+                required
               />
             </div>
           </div>
@@ -104,11 +142,13 @@ const Login = () => {
         <div className="space-y-3 w-[320px] ml-2">
           <button
             type="button"
+            onClick={handleGoogleLogin}
             className="w-full flex items-start px-4 py-3 border border-gray-300 rounded-md shadow-sm text-[15px] font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00B894]"
           >
             <FcGoogle className="h-5 w-5 mr-5" />
             Continue with Google
           </button>
+          {error && <p>{error}</p>}
 
           <button
             type="button"

@@ -1,31 +1,66 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { BsMicrosoft } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const SignUp = () => {
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    try {
+      const response = await api.post("/user/signup", {
+        email,
+        password,
+        username,
+      });
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      navigate("/login");
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred");
+    }
   };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/api/auth/google";
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    const error = urlParams.get("error");
+
+    if (token) {
+      localStorage.setItem("token", token);
+      navigate("/home");
+    }
+
+    if (error) {
+      setError(decodeURIComponent(error));
+    }
+  }, [navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white p-4">
       <div className="max-w-md space-y-8 items-center">
-        {/* Header */}
+        
         <div className="text-center">
           <h2 className="mt-6 text-[31px] font-[700] text-gray-900">
             Hey Its Good to See you
           </h2>
         </div>
 
-        {/* Form */}
+      
         <form
           className="mt-8 space-y-6 w-[320px] items-center ml-2"
           onSubmit={handleSubmit}
@@ -45,6 +80,7 @@ const SignUp = () => {
                 onChange={(e) => setUserName(e.target.value)}
                 className="w-full mt-2 px-3 py-2 border-2 border-[#0FA47F] rounded-md focus:outline-none focus:border-emerald-600"
                 placeholder=""
+                required
               />
             </div>
           </div>
@@ -64,13 +100,14 @@ const SignUp = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full mt-2 px-3 py-2 border-2 border-[#0FA47F] rounded-md focus:outline-none focus:border-emerald-600"
                 placeholder=""
+                required
               />
             </div>
           </div>
 
           <div className="relative h-[64px]">
             <div className="relative">
-              {/* Label with line */}
+      
               <div className="absolute -top-2 flex items-center w-full">
                 <span className="text-[14px] text-[#0FA47F] bg-white pl-2 pr-2">
                   Password
@@ -78,17 +115,18 @@ const SignUp = () => {
                 <div className="flex-grow- h-[1px]"></div>
               </div>
 
-              {/* Input */}
+            
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full mt-2 px-3 py-2 border-2 border-[#0FA47F] rounded-md focus:outline-none focus:border-emerald-600"
                 placeholder=""
+                required
               />
             </div>
           </div>
-          {/* Continue Button */}
+          
           <div>
             <button
               type="submit"
@@ -99,7 +137,7 @@ const SignUp = () => {
           </div>
         </form>
 
-        {/* Sign up link */}
+   
         <div className="text-center text-[14px] w-[320px] ml-2">
           <span className="text-gray-600">Already have an account? </span>
           <a
@@ -110,7 +148,7 @@ const SignUp = () => {
           </a>
         </div>
 
-        {/* Divider */}
+       
         <div className="relative w-[320px] ml-2">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>
@@ -120,10 +158,11 @@ const SignUp = () => {
           </div>
         </div>
 
-        {/* Social Login Buttons */}
+       
         <div className="space-y-3 w-[320px] ml-2">
           <button
             type="button"
+            onClick={handleGoogleLogin}
             className="w-full flex items-start px-4 py-3 border border-gray-300 rounded-md shadow-sm text-[15px] font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00B894]"
           >
             <FcGoogle className="h-5 w-5 mr-5" />
@@ -134,7 +173,7 @@ const SignUp = () => {
             type="button"
             className="w-full flex items-start px-4 py-3 border border-gray-300 rounded-md shadow-sm text-[15px] font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00B894]"
           >
-            {/* <BsMicrosoft className="h-5 w-5 mr-5 text-[#00A4EF]" /> */}
+            
             <svg
               className="h-5 w-5 mr-5"
               viewBox="0 0 20 20"
